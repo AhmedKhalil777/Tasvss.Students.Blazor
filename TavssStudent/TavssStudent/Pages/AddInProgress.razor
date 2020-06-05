@@ -1,0 +1,50 @@
+﻿@page "/addinprogress/{ProjectId}"
+@inherits AddInProgressBase
+<!-- /page title -->
+<PageTitle Title="Add InProgress Task"></PageTitle>
+<!-- /page title -->
+
+
+<EditForm Model="@InProgress" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <h3>Add InProgress</h3>
+    <hr />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="firstName" class="col-sm-2 col-form-label">
+            InProgress Name
+        </label>
+        <div class="col-sm-10">
+            <InputText id="firstName" class="form-control" placeholder="Name"
+                       @bind-Value="InProgress.Name" />
+            <ValidationMessage For="@(() => InProgress.Name)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Descreption
+        </label>
+        <div class="col-sm-10">
+            <InputText id="lastName" class="form-control" placeholder="Descreption"
+                       @bind-Value="InProgress.Descreption" />
+            <ValidationMessage For="@(() => InProgress.Descreption)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dateOfBirth" class="col-sm-2 col-form-label">
+            StartDate
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="InProgress.StartDate" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dateOfBirth" class="col-sm-2 col-form-label">
+            EndDate
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="InProgress.EndDate" class="form-control" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>

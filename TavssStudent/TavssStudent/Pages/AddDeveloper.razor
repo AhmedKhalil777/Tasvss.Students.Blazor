@@ -1,0 +1,25 @@
+﻿@page "/adddeveloper/{ProjectId}"
+@inherits AddDeveloperBase
+<!-- /page title -->
+<PageTitle Title="Add Developer"></PageTitle>
+<!-- /page title -->
+
+<EditForm Model="@Developer" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <h3 class="alert-info align-content-center">Add Developer</h3>
+    <hr />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="firstName" class="col-sm-2 col-form-label">
+            Developer Name
+        </label>
+        <div class="col-sm-10">
+            <InputText id="firstName" class="form-control" placeholder="Developer Name"
+                       @bind-Value="Developer.Name" />
+            <ValidationMessage For="@(() => Developer.Name)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <a class="btn btn-primary" href="@($"/projectdetails/{ProjectId}")">Back to the project</a>
+
+</EditForm>

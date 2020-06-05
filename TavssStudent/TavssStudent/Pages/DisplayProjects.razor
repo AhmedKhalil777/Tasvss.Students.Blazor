@@ -1,0 +1,41 @@
+﻿@page "/projects"
+@inherits DisplayProjectsBase
+<!-- page title -->
+    <PageTitle Title="All Project" Desc="Display all projects"></PageTitle>
+<!-- /page title -->
+<!-- Projects -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            @if (Projects != null)
+            {
+                @foreach (var project in Projects)
+                {
+                    <!-- project item -->
+                    <div class="col-lg-4 col-sm-6 mb-5">
+                        <div class="card p-0 border-primary rounded-0 hover-shadow">
+                            <img class="card-img-top rounded-0" src="images/courses/course-3.jpg" alt="@project.ProjectName">
+                            <div class="card-body">
+                                <a href="project-single.html">
+                                    <h4 class="card-title project-name">@project.ProjectName</h4>
+                                </a>
+                                <div class="text-center">
+                                    <a href="@($"/projectdetails/{project.Id}")" class="btn btn-primary btn-sm">Start</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /project item -->
+                }
+            }
+            else
+            {
+                <h1>Loading</h1>
+            }
+            <div style="margin-left: 200px; margin-right: 200px;" class="col-lg-6 col-sm-6 mb-5 text-center">
+                <a href="/addproject" class="btn btn-primary btn-xl">New Project</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Project -->

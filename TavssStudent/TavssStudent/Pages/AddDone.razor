@@ -1,0 +1,51 @@
+﻿@page "/adddone/{ProjectId}"
+@inherits AddDoneBase
+<!-- page title -->
+<PageTitle Title="Add Done Task"></PageTitle>
+
+<!--/page title -->
+
+
+<EditForm Model="@Done" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <h3>Add Done</h3>
+    <hr />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="firstName" class="col-sm-2 col-form-label">
+            Done Name
+        </label>
+        <div class="col-sm-10">
+            <InputText id="firstName" class="form-control" placeholder="Name"
+                       @bind-Value="Done.Name" />
+            <ValidationMessage For="@(() => Done.Name)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Descreption
+        </label>
+        <div class="col-sm-10">
+            <InputText id="lastName" class="form-control" placeholder="Descreption"
+                       @bind-Value="Done.Descreption" />
+            <ValidationMessage For="@(() => Done.Descreption)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dateOfBirth" class="col-sm-2 col-form-label">
+            StartDate
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="Done.StartDate" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dateOfBirth" class="col-sm-2 col-form-label">
+            EndDate
+        </label>
+        <div class="col-sm-10">
+            <InputDate @bind-Value="Done.EndDate" class="form-control" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>

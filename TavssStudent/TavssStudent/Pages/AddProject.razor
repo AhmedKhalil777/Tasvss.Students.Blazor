@@ -1,0 +1,21 @@
+﻿@page "/addproject"
+@inherits AddProjectBase
+    <!-- page title -->
+<PageTitle Title="Add project"></PageTitle>
+<!-- /page title -->
+
+<br>
+<EditForm Model="@Project" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label style="margin-left: 250px ; font-size: 40px; color: #1695e4; font-weight: bolder; font-style: italic; font-family: Arial, Helvetica, sans-serif;" for="exampleInputEmail1">Project Name</label>
+        <InputText @bind-Value="@Project.Name" placeholder="Enter project name" style="width: 800px; margin: 20px auto;" type="text" class="form-control"
+                   id="projectname" aria-describedby="emailHelp"></InputText>
+        <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Project.Name)" />
+
+    </div>
+    <button style="margin-left: 250px ;" type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+

@@ -1,0 +1,44 @@
+﻿@page "/coursedetails/{CourseId}"
+@inherits CourseDetailsBase
+<base href="~/" />
+@if (Course == null)
+{
+    <h1>Loading</h1>
+}
+else
+{
+    <!-- page title -->
+
+<PageTitle Title="Course Details" Desc="@Course.Name"></PageTitle>
+    <!-- /page title -->
+}
+@if (Course.Modules.Count > 0)
+{
+
+    @foreach (var modeule in Course.Modules)
+    {
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-sm-6 mb-5">
+                        <div class="card p-0 border-primary rounded-0 hover-shadow">
+                            <img class="card-img-top rounded-0" asp-append-version="true" src="images/courses/CousesLogo.jpg" alt="course thumb">
+                            <div class="card-body">
+                                <a href="course-single.html">
+                                    <h4 class="card-title">@modeule.Name</h4>
+                                </a>
+                                <a href="@($"/moduledetails/{Course.Id}/{modeule.Id}")" class="btn btn-primary btn-sm">Start</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+else
+{
+    <h1 class="btn btn-warning offset-4" style="margin-top: 90px;margin-bottom: 90px; width: 310px;">
+        <b>There is no modules.</b>
+    </h1>
+}

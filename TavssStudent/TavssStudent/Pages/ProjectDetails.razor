@@ -1,0 +1,186 @@
+﻿@page "/projectdetails/{ProjectId}"
+@inherits ProjectDetailsBase
+    <!-- page title -->
+<PageTitle Title="Details for project" Desc="@Project.ProjectName"></PageTitle>
+<!-- /page title -->
+<!-- section -->
+<section class="section-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <!-- course thumb -->
+                <!-- <img src="../../../assets/images/courses/course-single.jpg" class="img-fluid w-100" alt="project's image"> -->
+            </div>
+        </div>
+        <!-- course info -->
+        <div class="row align-items-center mb-5">
+            <div class="col-xl-3 order-1 col-sm-6 mb-4 mb-xl-0">
+                <h3>IS</h3>
+            </div>
+            <div class="col-xl-6 order-sm-3 order-xl-2 col-12 order-2">
+                <ul class="list-inline text-xl-center">
+                    <li class="list-inline-item mr-4 mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <i class="ti-face-smile text-primary icon-md mr-2"></i>
+                            <div class="text-left">
+                                <h6 class="mb-0">MEMBERS</h6>
+                                <p class="mb-0">@Project.Developer.Count()</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-inline-item mr-4 mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center">
+                            <i class="ti-alarm-clock text-primary icon-md mr-2"></i>
+                            <div class="text-left">
+                                <h6 class="mb-0">DURATION</h6>
+                                @if (Project.Framework != null && Project.Framework.ToDos != null)
+                                {
+                                    <p class="mb-0">@Duration Day</p>
+                                }
+                                else
+                                {
+                                    <p class="mb-0">0 Day</p>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xl-3 text-sm-right text-left order-sm-2 order-3 order-xl-3 col-sm-6 mb-4 mb-xl-0">
+                <a @onclick="async ()=> { await ProjectService.DownloadProject(ProjectId); }" class="btn btn-primary"> Download Now</a>
+            </div>
+            <!-- border -->
+            <div class="col-12 mt-4 order-4">
+                <div class="border-bottom border-primary"></div>
+            </div>
+        </div>
+        <!-- project details -->
+
+    </div>
+</section>
+<!-- /section -->
+
+
+
+@if (Project.Id != null && Project.Framework != null && (Project.Framework.ToDos.Count() > 0
+|| Project.Framework.InProgress.Count() > 0 || Project.Framework.Dones.Count() > 0))
+{
+
+    <FrameworkDisplay FrameworkParm="@Project.Framework" ProjectId="@Project.Id" OnProjectDeleted="ProjectDeleted">
+
+    </FrameworkDisplay>
+
+
+    @if (Project.Framework.ToDos.Count() == 0 && Project.Framework.Dones.Count() == 0 && Project.Framework.InProgress.Count() == 0)
+    {
+        <a class="btn btn-primary" style="margin:70px 70px;width:400px" href="@($"/addtodo/{ProjectId}")">add todo</a>
+    }
+    
+
+}
+@if (Project.Framework == null)
+{
+    <div>
+        <a class="btn btn-primary col align-self-center" style="margin:70px 70px;width:400px"  @onclick="CreateFrameworkAsync"> Create Framework</a>
+    </div>
+}
+else
+{
+    @if (Project.Framework.ToDos.Count() == 0 && Project.Framework.Dones.Count() == 0 && Project.Framework.InProgress.Count() == 0)
+    {
+        <div>
+            <a class="btn btn-primary col align-self-center" href="@($"/addtodo/{ProjectId}")">add todo</a>
+        </div>
+    }
+}
+
+<!-- start supervisisor -->
+<h6 style=" font-size: 40px; font-weight: bolder; font-style: italic; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisior</h6>
+<div style="margin-left: 90px; font-size: 30px;">
+    @if (@Project.SuperVisior.Name == "No Doctor yet.")
+    {
+        <a class="btn btn-primary" href="@($"/addsupervisior/{ProjectId}")">Assign Doctor To The Project</a>
+    }
+    else
+    {
+        @Project.SuperVisior.Name
+    }
+</div>
+<!-- /supervisisor -->
+<!--mumbers-->
+<h6 style=" font-size: 40px; font-weight: bolder; font-style: italic; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mumbers :</h6>
+@if (@Project.Developer.Count() == 0)
+{
+    <a class="btn btn-primary" style=" margin-left: 90px; width: 310px;"
+       href="@($"/adddeveloper/{ProjectId}")">Assign Developers To The Project</a>
+}
+else
+{
+    <ol>
+        @foreach (var dev in Project.Developer.OrderBy(n => n.Name))
+        {
+            <div class="col offset-3 col-9">
+                <li>
+                    <b>@dev.Name</b> <div class="widget-content-right">
+                        <button class="border-0 btn-transition btn btn-outline-danger"
+                                @onclick="@(e=>DeleteDeveloperAsync(dev.Id))">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </li>
+            </div>
+        }
+        <div class="col offset-2">
+            <a class="btn btn-primary"
+               href="@($"/adddeveloper/{ProjectId}")">Add Developer</a>
+        </div>
+    </ol>
+}
+
+<!-- start evaluation -->
+<div>
+    <h6 style=" font-size: 40px; font-weight: bolder; font-style: italic; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluation<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h6>
+    <div style="margin-left: 90px; font-size: 30px;">
+        @Project.Evalution
+    </div>
+</div>
+<!-- /evaluation -->
+<br>
+
+<!-- related projects -->
+<section class="section pt-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">Other Projects</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- course item -->
+            @if (Projects != null)
+            {
+                @foreach (var project in Projects)
+                {
+                    <div class="col-lg-4 col-sm-6 mb-5">
+                        <div class="card p-0 border-primary rounded-0 hover-shadow" style="width: 300px;">
+                            <img class="card-img-top rounded-0" src="images/courses/course-1.jpg" alt="course thumb">
+                            <div class="card-body">
+                                <a href="project-single.html">
+                                    <h4 class="card-title">@project.ProjectName</h4>
+                                </a>
+                                <a href="@($"/projectdetails/{project.Id}")" @onclick="()=>HandleClick(project.Id)"
+                                   class="btn btn-primary btn-sm">Dicover</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h1>Loading</h1>
+            }
+            <!-- /course item -->
+        </div>
+    </div>
+</section>
+<!-- /related course -->
